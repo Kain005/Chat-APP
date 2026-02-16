@@ -9,7 +9,7 @@ import cors from"cors"
 import { app,server } from "./lib/socket.js"
 import path from "path"
 dotenv.config()
-const Port=process.env.Port;
+const PORT = process.env.PORT || 5001;
 
 const __dirname=path.resolve();
 app.use(cors({
@@ -34,8 +34,8 @@ if(process.env.NODE_ENV==="production"){
     })
 }
 
-server.listen(Port,()=>{
-console.log("Server i running fine on Port="+Port);
+server.listen(PORT,()=>{
+console.log("Server is running on PORT=" + PORT);
  connectDB();
 }
 )
