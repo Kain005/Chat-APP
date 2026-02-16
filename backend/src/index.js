@@ -12,8 +12,14 @@ dotenv.config()
 const PORT = process.env.PORT || 5001;
 
 const __dirname = path.resolve();
+const allowedOrigins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 }));
@@ -28,7 +34,8 @@ app.use("/api/auth",authRoutes);
 app.use("/api/messages",messageRoutes);
 
 if (process.env.NODE_ENV === "production") {
-    const frontendDist = path.join(__dirname, "frontend", "dist");
+    const frontendDist = path.join(process.cwd(), "frontend", "dist");
+    console.log("Serving static files from:", frontendDist);
     app.use(express.static(frontendDist));
     app.get("*", (req, res) => {
         res.sendFile(path.join(frontendDist, "index.html"));
