@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === "production") {
     const frontendDist = path.join(process.cwd(), "frontend", "dist");
     console.log("Serving static files from:", frontendDist);
     app.use(express.static(frontendDist));
-    app.get("*", (req, res) => {
+    app.get(/.*/,(req, res) => {
         res.sendFile(path.join(frontendDist, "index.html"));
     });
 }
